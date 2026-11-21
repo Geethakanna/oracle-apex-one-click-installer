@@ -29,7 +29,7 @@ install_apex_db() {
 
   [ -d "/opt/oracle/oradata/${DB_SID}" ] || die "Database not found. Run install_database.sh first"
   pgrep -f "db_pmon_${DB_SID}" >/dev/null || die "Database is not running"
-  [ -n "$APEX_ZIP_URL" ] || die "APEX_ZIP_URL is empty in config.env"
+  [ -n "${APEX_ZIP_URL:-}" ] || die "APEX_ZIP_URL is empty in config.env"
 
   [ -n "${DB_PASSWORD:-}" ] || ask_password DB_PASSWORD "Database SYS password"
   check_pw "$DB_PASSWORD"

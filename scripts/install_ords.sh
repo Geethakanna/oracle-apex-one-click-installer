@@ -18,7 +18,7 @@ ords_download() {
   ORDS_FOUND_VERSION="$(unzip -p "$zip" NOTICE.txt \
     | grep -o 'Release Notes for Oracle REST Data Services [0-9.]*' \
     | grep -o '[0-9]*\.[0-9]*\.[0-9]*' | head -1 || true)"
-  [[ -n "$ORDS_FOUND_VERSION" ]] || die "Could not read the ORDS version from the zip"
+  [[ -n "${ORDS_FOUND_VERSION:-}" ]] || die "Could not read the ORDS version from the zip"
   ok "ORDS version in zip: $ORDS_FOUND_VERSION"
 }
 

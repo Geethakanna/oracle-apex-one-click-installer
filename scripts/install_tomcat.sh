@@ -11,7 +11,7 @@ install_tomcat() {
   local port="${TOMCAT_HTTP_PORT:-8080}"
   info "Tomcat stage started (version ${TOMCAT_VERSION})"
 
-  [ -n "$TOMCAT_VERSION" ] || die "TOMCAT_VERSION is empty in config.env"
+  [ -n "${TOMCAT_VERSION:-}" ] || die "TOMCAT_VERSION is empty in config.env"
   [ -f /etc/profile.d/java.sh ] || die "Java not configured. Run install_java.sh first"
   source /etc/profile.d/java.sh
 

@@ -16,7 +16,7 @@ install_database() {
   if ! rpm -q oracle-ai-database-free-26ai >/dev/null 2>&1; then
     mkdir -p "$PROJECT_DIR/packages"
     if [ ! -f "$pkg" ]; then
-      [ -n "$DB_RPM_URL" ] || die "RPM not found: $pkg. Copy it there or set DB_RPM_URL in config.env"
+      [ -n "${DB_RPM_URL:-}" ] || die "RPM not found: $pkg. Copy it there or set DB_RPM_URL in config.env"
       info "Downloading database RPM (about 1.5 GB)"
       curl -fL -o "$pkg" "$DB_RPM_URL" >>"$dlog" 2>&1 || die "Download failed. See $dlog"
     else
@@ -39,7 +39,7 @@ install_database() {
     ok "Database software already installed"
   fi
 
-  if [ -z "$DB_PASSWORD" ]; then ask_password DB_PASSWORD "Choose a password for SYS/SYSTEM/PDBADMIN"; fi
+  if [ -z "${DB_PASSWORD:-}" ]; then ask_password DB_PASSWORD "Choose a password for SYS/SYSTEM/PDBADMIN"; fi
   info "Creating database ${DB_SID} / ${PDB_NAME} (this takes several minutes)"
   (echo "$DB_PASSWORD"; echo "$DB_PASSWORD") | /etc/init.d/oracle-free-26ai configure >>"$dlog" 2>&1 \
     || die "Database creation failed. See $dlog"
